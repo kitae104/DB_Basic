@@ -27,7 +27,13 @@ FROM books b;
 SELECT CHAR_LENGTH('Hello World');
 
 SELECT LENGTH("홍길동");
+
 -- 문자열 길이(바이트 단위)
 SELECT CHAR_LENGTH('홍길동');
+
 -- 문자열 길이(글자수)
 SELECT CHAR_LENGTH(title), title FROM books;
+
+SELECT author_lname, CHAR_LENGTH(author_lname) AS 'length' FROM books;
+ 
+SELECT CONCAT(author_lname, ' is ', CHAR_LENGTH(author_lname), ' characters long') FROM books;
