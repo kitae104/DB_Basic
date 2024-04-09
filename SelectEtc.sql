@@ -79,3 +79,43 @@ SELECT CONCAT(
     ) as author
 FROM books
 ORDER BY author;
+
+-- LIMIT : 결과를 제한한다. LIMIT는 SELECT문에서만 사용 가능하다.
+-- title과 released_year을 released_year을 기준으로 오름차순으로 보이시오. 그리고 결과를 5개로 제한하시오.
+SELECT book_id, title, released_year
+FROM books
+ORDER BY released_year
+LIMIT 5;
+
+-- title과 released_year을 released_year을 기준으로 오름차순으로 보이시오. 그리고 결과를 2번째부터 2개를 보이시오.
+SELECT book_id, title, released_year
+FROM books
+ORDER BY released_year
+LIMIT 2, 2;
+
+
+SELECT book_id, title, released_year
+FROM books
+ORDER BY released_year DESC
+LIMIT 5 OFFSET 3;
+
+-- LIKE : 문자열을 비교한다. %는 0개 이상의 문자열을 의미하고, _는 한 문자를 의미한다.
+-- author_fname이 'David' 데이터를 보이시오.
+SELECT title, author_fname, author_lname  
+FROM books
+WHERE author_fname = 'David';
+
+-- author_fname에  'da'가 포함된 데이터를 보이시오.
+SELECT title, author_fname, author_lname  
+FROM books
+WHERE author_fname LIKE '%da%';
+
+-- author_fname이 4자인 데이터를 보이시오.
+SELECT * FROM books WHERE author_fname LIKE '____';
+
+-- 두번째 위치에 a가 나오는 데이터를 보이시오.
+SELECT * FROM books WHERE author_fname LIKE '_a_';
+
+-- author_fname이 'n'으로 끝나는 데이터를 보이시오.
+SELECT * FROM books WHERE author_fname LIKE '%n';
+
