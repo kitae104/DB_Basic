@@ -93,22 +93,31 @@ FROM books
 ORDER BY released_year
 LIMIT 2, 2;
 
-
 SELECT book_id, title, released_year
 FROM books
 ORDER BY released_year DESC
-LIMIT 5 OFFSET 3;
+LIMIT 5
+OFFSET
+    3;
 
 -- LIKE : 문자열을 비교한다. %는 0개 이상의 문자열을 의미하고, _는 한 문자를 의미한다.
 -- author_fname이 'David' 데이터를 보이시오.
-SELECT title, author_fname, author_lname  
+SELECT
+    title,
+    author_fname,
+    author_lname
 FROM books
-WHERE author_fname = 'David';
+WHERE
+    author_fname = 'David';
 
 -- author_fname에  'da'가 포함된 데이터를 보이시오.
-SELECT title, author_fname, author_lname  
+SELECT
+    title,
+    author_fname,
+    author_lname
 FROM books
-WHERE author_fname LIKE '%da%';
+WHERE
+    author_fname LIKE '%da%';
 
 -- author_fname이 4자인 데이터를 보이시오.
 SELECT * FROM books WHERE author_fname LIKE '____';
@@ -119,3 +128,43 @@ SELECT * FROM books WHERE author_fname LIKE '_a_';
 -- author_fname이 'n'으로 끝나는 데이터를 보이시오.
 SELECT * FROM books WHERE author_fname LIKE '%n';
 
+-- 와일드 카드 이스케이프
+-- title에 '%'가 포함된 데이터를 보이시오.
+SELECT * FROM books WHERE title LIKE '%\%%';
+
+-- title에 '_'가 포함된 데이터를 보이시오.
+SELECT * FROM books WHERE title LIKE '%\_%';
+
+-- title에 'stories'가 포함된 데이터를 보이시오.
+SELECT title FROM books WHERE title LIKE '%stories%';
+
+-- 가장 많은 페이지를 가진 책을 보이시오.
+SELECT * FROM books ORDER BY pages DESC LIMIT 1;
+
+-- 가장 최근에 출판된 책 3가지를 보이시오.
+SELECT CONCAT(title, ' - ', released_year) AS summary
+FROM books
+ORDER BY released_year DESC
+LIMIT 3;
+
+--  author_lname에 ' '을 포함한 모든 책을 보이시오.
+SELECT *
+FROM books
+WHERE author_lname LIKE '% %';
+
+-- stock_quantity가 적은 책 3개를 보이시오.
+SELECT title, released_year, stock_quantity
+FROM books
+ORDER BY stock_quantity LIMIT 3;
+
+-- author_lname에 대해 정렬한 후 title에 대해 정렬하시오.
+SELECT title, author_lname
+FROM books
+ORDER BY author_lname, title;
+
+-- author_lname에 대해 정렬한 후 author_fname에 대해 정렬하고 대문자로 변경 하시오.
+SELECT CONCAT(
+        'MY FAVORITE AUTHOR IS', ' ', UPPER(author_fname), ' ', UPPER(author_lname)
+    ) AS yell
+FROM books
+ORDER BY author_lname, author_fname DESC;
