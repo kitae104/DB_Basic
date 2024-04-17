@@ -73,3 +73,56 @@ WHERE released_year = (
     SELECT MIN(released_year)
     FROM books
 );
+
+-- 다중 열 GROUP BY
+SELECT author_fname, author_lname
+FROM books
+ORDER BY author_lname;
+
+-- author_lname으로 그룹화 후 각 그룹의 개수를 출력
+SELECT author_lname, COUNT(*) 
+FROM books
+GROUP BY author_lname;
+
+-- author_lname, author_fname으로 그룹화 후 각 그룹의 개수를 출력
+SELECT author_fname, author_lname, COUNT(*) 
+FROM books
+GROUP BY author_lname, author_fname;
+
+-- author_fname, author_lname을 합쳐서 author로 출력한 후 각 그룹의 개수를 출력
+SELECT CONCAT(author_fname, ' ', author_lname) AS author, COUNT(*)
+FROM books
+GROUP BY author;
+
+-- GROUP BY와 MIN/MAX 사용하기
+-- 각 저자의 가장 먼저 출판된 책의 출판년도와 가장 최근에 출판된 책의 출판년도 출력
+SELECT author_lname, MIN(released_year), MAX(released_year)
+FROM books
+GROUP BY author_lname;
+
+-- 각 저자의 전체 책 개수와 가장 먼저 출판된 책의 출판년도와 가장 최근에 출판된 책의 출판년도 출력
+SELECT author_lname, 
+    COUNT(*) AS book_written, 
+    MIN(released_year) AS latest_release, 
+    MAX(released_year) AS earliest_release
+FROM books
+GROUP BY author_lname;
+
+-- 각 저자의 전체 책 개수와 가장 먼저 출판된 책의 출판년도와 가장 최근에 출판된 책의 출판년도, 가장 많은 페이지수 출력
+SELECT author_lname, 
+    COUNT(*) AS book_written, 
+    MIN(released_year) AS latest_release, 
+    MAX(released_year) AS earliest_release,
+    MAX(pages) AS longest_page_count
+FROM books
+GROUP BY author_lname;
+
+SELECT author_lname, 
+    author_fname,
+    COUNT(*) AS book_written, 
+    MIN(released_year) AS latest_release, 
+    MAX(released_year) AS earliest_release,
+    MAX(pages) AS longest_page_count
+FROM books
+GROUP BY author_lname, author_fname;
+
