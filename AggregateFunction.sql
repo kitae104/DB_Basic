@@ -126,3 +126,67 @@ SELECT author_lname,
 FROM books
 GROUP BY author_lname, author_fname;
 
+-- SUM : 합계
+-- 전체 책의 페이지수 합계
+SELECT SUM(pages) FROM books;
+
+-- 각 저자의 전체 책의 페이지수 합계
+SELECT author_lname, SUM(pages) AS total_pages 
+FROM books
+GROUP BY author_lname;
+
+SELECT author_lname, pages
+FROM books;
+
+SELECT author_lname, COUNT(*), SUM(released_year)
+FROM books
+GROUP BY author_lname;
+
+-- 각 저자의 전체 책의 개수와 페이지수 합계
+SELECT author_lname, COUNT(*), SUM(pages)
+FROM books
+GROUP BY author_lname;
+
+-- AVG : 평균
+-- 전체 페이지들의 평균
+SELECT AVG(pages) FROM books;
+
+SELECT AVG(stock_quantity) FROM books;
+
+-- 연도와 재고 수량의 평균
+SELECT released_year, AVG(stock_quantity)
+FROM books
+GROUP BY released_year
+ORDER BY released_year;
+
+-- 연도별 각 저자의 전체 책의 개수와 재고 수량 평균
+SELECT released_year, AVG(stock_quantity), COUNT(*)
+FROM books
+GROUP BY released_year;
+
+-- 출판 연도별 책의 개수
+SELECT released_year, COUNT(*) FROM books GROUP BY released_year;
+
+-- 전체 책의 재고 수량 합계
+SELECT SUM(stock_quantity) FROM books;
+
+SELECT author_fname, author_lname, AVG(released_year) 
+FROM books 
+GROUP BY author_fname, author_lname;
+
+-- 가장 많은 페이지수를 가진 책의 저자 이름 출력
+SELECT author_fname, author_lname, pages
+FROM books
+WHERE pages = (
+    SELECT MAX(pages) FROM books
+);
+
+SELECT CONCAT(author_fname, ' ', author_lname) AS author, pages
+FROM books
+WHERE pages = (
+    SELECT MAX(pages) FROM books
+);
+
+
+
+
