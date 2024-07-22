@@ -9,3 +9,11 @@ INSERT INTO products (price) VALUES (6.206);    -- Warning(소수점 아래 자�
 SHOW WARNINGS;
 
 SELECT * FROM products;
+
+CREATE TABLE nums (x FLOAT, y DOUBLE);
+
+INSERT INTO nums (x, y) VALUES (1.123, 1.123);
+INSERT INTO nums (x, y) VALUES (1.123456789, 1.123456789);
+INSERT INTO nums (x, y) VALUES (1.123456789, 1.1234567890123456789);
+
+SELECT * FROM nums;
