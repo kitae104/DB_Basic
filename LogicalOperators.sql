@@ -205,3 +205,59 @@ FROM books;
 
 -- 10. IS NULL : NULL인 행을 반환
 SELECT title, released_year FROM books WHERE author_lname IS NULL;
+
+-- 논리 연산 연습문제
+SELECT 1 IN (5, 3) OR 9 BETWEEN 8 AND 10;
+
+SELECT *
+FROM books
+WHERE
+    released_year < 1980;
+
+SELECT *
+FROM books
+WHERE
+    author_lname = 'Eggers'
+    OR author_lname = 'Chabon';
+    
+SELECT *
+FROM books
+WHERE
+    author_lname = 'Lahiri'
+    AND released_year > 2000;
+
+SELECT *
+FROM books
+WHERE
+    pages BETWEEN 100 AND 200;
+
+SELECT title, author_lname
+FROM books
+WHERE
+    author_lname like 'C%'
+    OR author_lname like 'S%';
+
+SELECT title, author_lname, SUBSTR(author_lname, 1, 1) AS first_letter
+FROM books
+WHERE
+    SUBSTR(author_lname, 1, 1) in ('C', 'S');
+
+SELECT title, author_lname,
+    CASE
+        WHEN title like '%stories%' THEN 'Short Stories'
+        WHEN title like '%novel%' THEN 'Novel'
+        ELSE 'Other'
+    END AS genre
+FROM books
+WHERE
+    SUBSTR(author_lname, 1, 1) in ('C', 'S');
+
+SELECT author_fname, author_lname, 
+CASE 
+    WHEN COUNT(1) = 1 THEN '1 book'    
+    ELSE CONCAT(COUNT(*), ' books')
+END
+FROM books
+WHERE author_lname IS NOT NULL
+GROUP BY author_fname, author_lname;
+
