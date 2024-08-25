@@ -69,5 +69,3 @@ CREATE TABLE houses(
 INSERT INTO houses (purchase_price, sale_price) VALUES (100000, 200000);
 -- 제약 위배로 에러 발생
 INSERT INTO houses (purchase_price, sale_price) VALUES (200000, 100000);
-
-
