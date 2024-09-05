@@ -18,6 +18,7 @@
 			}
 		}
 	},
+	"virtual-models": {"mysql8-18ff8a6e6fe-56e79a7908206ddf":{"mysql_db":{":cats":{"constraints":{"VIRTUAL_PK":{"type":"vpk","attributes":["name"]}}}}}},
 	"connection-types": {
 		"dev": {
 			"name": "Development",
@@ -27,7 +28,7 @@
 			"confirm-execute": false,
 			"confirm-data-change": false,
 			"smart-commit": false,
-			"smart-commit-recover": false,
+			"smart-commit-recover": true,
 			"auto-close-transactions": true,
 			"close-transactions-period": 1800,
 			"auto-close-connections": true,
