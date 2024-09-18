@@ -2,3 +2,8 @@
 .idea/
 .dbeaver/.project-metadata.json.bak
 .dbeaver/credentials-config.json
+/.dbeaver
+.dbeaver/.project-metadata.json.bak
+.dbeaver/credentials-config.json
+.dbeaver/data-sources.json
+.dbeaver/project-metadata.json
