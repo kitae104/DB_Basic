@@ -51,3 +51,54 @@ GROUP BY first_name, last_name;
 SELECT first_name, last_name, order_date, amount
 FROM customers c RIGHT JOIN orders o
 ON c.id = o.customer_id;
+
+CREATE TABLE students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50)    
+);
+
+CREATE TABLE papers (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(50),
+    grade INT,
+    student_id INT,
+    FOREIGN KEY (student_id) REFERENCES students(id)
+);
+
+INSERT INTO students (first_name) VALUES 
+('Caleb'), ('Samantha'), ('Raj'), ('Carlos'), ('Lisa');
+
+INSERT INTO papers (student_id, title, grade ) VALUES
+(1, 'My First Book Report', 60),
+(1, 'My Second Book Report', 75),
+(2, 'Russian Lit Through The Ages', 94),
+(2, 'De Montaigne and The Art of The Essay', 98),
+(4, 'Borges and Magical Realism', 89);
+
+-- inner join : 두 테이블 간의 일치하는 행만 반환
+SELECT first_name, title, grade
+FROM students s JOIN papers p
+ON s.id = p.student_id
+ORDER BY grade DESC;
+
+-- left join : 왼쪽 테이블의 모든 행을 포함하고 오른쪽 테이블의 일치하는 행이 없는 경우 NULL 값을 사용
+SELECT first_name, IFNULL(title, 'MISSING'), IFNULL(grade, 0)
+FROM students s LEFT JOIN papers p
+ON s.id = p.student_id;
+
+-- left join group by : 왼쪽 테이블의 모든 행을 포함하고 오른쪽 테이블의 일치하는 행이 없는 경우 NULL 값을 사용
+SELECT first_name, IFNULL(AVG(grade), 0) as average
+FROM students s LEFT JOIN papers p
+ON s.id = p.student_id
+GROUP BY first_name
+ORDER BY average DESC;
+
+SELECT first_name, IFNULL(AVG(grade), 0) as average, 
+    CASE 
+        WHEN IFNULL(AVG(grade), 0) >= 75 THEN  'passing'
+        ELSE  'failing'
+    END AS passing_status
+FROM students s LEFT JOIN papers p
+ON s.id = p.student_id
+GROUP BY first_name
+ORDER BY average DESC;
