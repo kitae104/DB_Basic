@@ -52,3 +52,29 @@ SELECT emp_no,
     MIN(salary) OVER (),
     MAX(salary) OVER ()
 FROM employees;
+
+-- employees 테이블에서 각 직원의 번호(emp_no), 부서(department), 급여(salary)를 조회하고, 부서별 평균 급여(dept_avg)를 계산하여 함께 출력
+SELECT 
+    emp_no,
+    department,
+    salary,
+    AVG(salary) OVER (PARTITION BY department) AS dept_avg
+FROM employees;
+
+-- employees 테이블에서 각 부서(department)의 평균 급여(avg_salary)를 계산하여 출력
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department;
+
+-- employees 테이블에서 각 직원의 부서(department)와 급여(salary)를 조회하고, 각 부서별 직원 수(dept_count)를 함께 출력
+SELECT department, salary,
+    COUNT(*) OVER (PARTITION BY department) AS dept_count
+FROM employees;
+
+-- employees 테이블에서 각 직원의 부서(department)와 급여(salary)를 조회하고, 각 부서별 급여 합계(dept_sum)와 전체 급여 합계(total_sum)를 함께 출력
+SELECT 
+    department, 
+    salary,
+    SUM(salary) OVER (PARTITION BY department) AS dept_sum,
+    SUM(salary) OVER () AS total_sum
+FROM employees;
