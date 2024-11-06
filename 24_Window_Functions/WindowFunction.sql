@@ -78,3 +78,26 @@ SELECT
     SUM(salary) OVER (PARTITION BY department) AS dept_sum,
     SUM(salary) OVER () AS total_sum
 FROM employees;
+
+-- 직원 번호(emp_no), 부서(department), 그리고 급여(salary)를 가져오고, 각 부서별 급여의 누적 합계와 총합을 계산
+SELECT emp_no, department, salary,
+    SUM(salary) OVER (PARTITION BY department ORDER BY salary) AS rolling_dept_salary,
+    SUM(salary) OVER (PARTITION BY department) AS dept_sum
+FROM employees;
+
+-- 직원 번호(emp_no), 부서(department), 급여(salary)를 가져오고, 각 부서 내에서 급여가 가장 낮은 값을 반환
+SELECT emp_no, department, salary,
+    MIN(salary) OVER (PARTITION BY department ORDER BY salary) 
+FROM employees;
+
+-- 직원 번호(emp_no), 부서(department), 급여(salary)를 가져오고, 전체 급여 내림차순에 따른 순위를 overall_salary_rank 열에 표시
+SELECT emp_no, department, salary,
+    RANK() OVER(ORDER BY salary DESC) as overall_salary_rank
+FROM employees;
+
+-- 직원 번호(emp_no), 부서(department), 급여(salary)를 가져오고, 각 부서별 급여 내림차순에 따른 순위를 dept_salary_rank 열에 표시하고, 전체 급여 내림차순에 따른 순위를 overall_salary_rank 열에 표시
+SELECT emp_no, department, salary,
+    RANK() OVER(PARTITION BY department ORDER BY salary DESC) as dept_salary_rank,
+    RANK() OVER(ORDER BY salary DESC) as overall_salary_rank
+FROM employees
+ORDER BY department, salary DESC;
