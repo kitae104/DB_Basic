@@ -101,3 +101,41 @@ SELECT emp_no, department, salary,
     RANK() OVER(ORDER BY salary DESC) as overall_salary_rank
 FROM employees
 ORDER BY department, salary DESC;
+
+-- DENSE_RANK() 사용하기 : RANK()와 비슷하지만 동일한 순위가 있을 때 다음 순위를 건너뛰지 않고 순위를 계속 매김
+-- ROW_NUMBER() 사용하기 : 각 행에 순서를 매김
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    ROW_NUMBER() OVER(PARTITION BY department ORDER BY SALARY DESC) as dept_row_number,
+    RANK() OVER(PARTITION BY department ORDER BY SALARY DESC) as dept_salary_rank,
+    RANK() OVER(ORDER BY salary DESC) as overall_rank,
+    DENSE_RANK() OVER(ORDER BY salary DESC) as overall_dense_rank,
+    ROW_NUMBER() OVER(ORDER BY salary DESC) as overall_num
+FROM employees ORDER BY overall_rank;
+
+-- NTILE() 사용하기 : 데이터를 동일한 크기의 그룹으로 나누어 순위를 매김
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    NTILE(4) OVER(ORDER BY salary DESC) as quartile
+FROM employees;
+
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    NTILE(4) OVER(PARTITION BY department ORDER BY salary DESC) as dept_salary_quartile,
+    NTILE(4) OVER(ORDER BY salary DESC) as quartile
+FROM employees;
+
+-- FIRST_VALUE() 사용하기 : 그룹 내에서 첫 번째 값을 반환
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    FIRST_VALUE(salary) OVER(PARTITION BY department ORDER BY salary DESC) as highest_paid_dept,
+    FIRST_VALUE(emp_no) OVER(ORDER BY salary DESC) as highest_paid_overall
+FROM employees;
