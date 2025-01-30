@@ -139,3 +139,36 @@ SELECT
     FIRST_VALUE(salary) OVER(PARTITION BY department ORDER BY salary DESC) as highest_paid_dept,
     FIRST_VALUE(emp_no) OVER(ORDER BY salary DESC) as highest_paid_overall
 FROM employees;
+
+-- LAG() 사용하기 : 이전 행의 값을 가져옴
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    LAG(salary) OVER(ORDER BY salary DESC) as previous_salary
+FROM employees;
+
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    salary - LAG(salary) OVER(ORDER BY salary DESC) as previous_salary
+FROM employees;
+
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    salary - LAG(salary) OVER(PARTITION BY department ORDER BY salary DESC) as dept_previous_salary
+FROM employees;
+
+
+-- LEAD() 사용하기 : 다음 행의 값을 가져옴
+SELECT 
+    emp_no, 
+    department, 
+    salary,
+    salary - LEAD(salary) OVER(ORDER BY salary DESC) as salary_diff
+
+FROM employees;
+
